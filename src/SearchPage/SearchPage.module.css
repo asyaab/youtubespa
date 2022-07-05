@@ -1,0 +1,101 @@
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.container2 {
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.input:focus {
+    outline: none;
+    background-color: rgba(197, 228, 249, 0.3);
+    border: 1px solid rgba(19, 144, 229, 1) ;
+}
+.input2:focus {
+    outline: none;
+    background-color: rgba(197, 228, 249, 0.3);
+    border: 1px solid rgba(19, 144, 229, 1) ;
+}
+
+.input {
+    height: 52px;
+    width: 686px;
+    border: 1px solid rgba(23, 23, 25, 0.2) ;
+    border-radius: 5px 0 0 5px;
+    padding: 15px;
+    font-size: 20px;
+}
+.input2 {
+    height: 52px;
+    width: 890px;
+    border: 1px solid rgba(23, 23, 25, 0.2) ;
+    border-radius: 5px 0 0 5px;
+    padding: 15px;
+    font-size: 20px;
+}
+
+.input2::after {
+    content: '';
+    background: url('/public/images/heart.svg');
+    position: absolute;
+    left: -50px;
+}
+
+.btn {
+    width: 150px;
+    height: 52px;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    background: #1390E5;
+    color: white;
+    font-size: 20px;
+}
+
+.form {
+    display: flex;
+}
+
+.h1 {
+    font-size: 36px;
+}
+.h1_2 {
+    font-size: 28px;
+}
+
+.filter {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.filter_pic {
+    display: flex;
+    gap: 15px;
+}
+
+.pic {
+    width: 24px;
+    height: 24px;
+}
+
+.pic_active {
+    color:black
+}
+
+.h2 {
+    font-size: 16px;
+}

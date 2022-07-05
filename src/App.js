@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { LoginForm } from './LoginForm/LoginForm';
+import { RegisterForm } from './RegisterForm/RegisterForm';
+import { SearchPage } from './SearchPage/SearchPage';
+import { LayoutPage } from './LayoutPage/LayoutPage';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { RequireAuth } from './hoc/RequireAuth';
 
 function App() {
+  const navigate = useNavigate();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/" element={<LayoutPage />}>
+          <Route
+            index
+            element={
+              <RequireAuth>
+                <SearchPage />
+              </RequireAuth>
+            }
+          />
+        </Route>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<RegisterForm />} />
+      </Routes>
     </div>
   );
 }
