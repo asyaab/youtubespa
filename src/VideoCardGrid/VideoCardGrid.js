@@ -1,18 +1,21 @@
-import React from 'react'
-import style from './VideoCard.module.css'
+import React from 'react';
+import style from './VideoCardGrid.module.css';
 
-export const VideoCard = ({pic, title, desc}) => {
+export const VideoCardGrid = ({ pic, title, desc, videoId, channelId, viewCount }) => {
   return (
     <>
-        <div className={style.outer}>
-          <div className={style.container}>
-            <img src={pic} className={style.pic} sizes='100%'/>
-            <div className={style.txt_container}>
-              <p className={style.title}>{title}</p>
-              <p className={style.desc}>{desc}</p>
-            </div>
-          </div>
+      <div
+        className={style.container}
+        onClick={() =>
+          (window.location.href = `https://www.youtube.com/watch?v=${videoId}_channel=${channelId}`)
+        }>
+        <img src={pic} className={style.pic} sizes="100%" />
+        <div className={style.txt_container}>
+          <p className={style.title}>{title}</p>
+          <p className={style.desc}>{desc}</p>
+          <p className={style.viewCount}>{viewCount}</p>
         </div>
+      </div>
     </>
-  )
-}
+  );
+};

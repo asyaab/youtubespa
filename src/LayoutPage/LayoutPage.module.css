@@ -4,6 +4,7 @@
     height: 48px;
     margin: 8px auto;
     background: center/contain url(./sibdev-logo.svg);
+    cursor: pointer;
 }
 
 .layout {
@@ -13,4 +14,8 @@
 .menu {
     width: 1040px;
     margin-left: 300px
+}
+
+.outlet {
+    background-color: #FAFAFA;
 }
