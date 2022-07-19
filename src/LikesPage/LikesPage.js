@@ -10,7 +10,7 @@ export const LikesPage = () => {
         <h1 className={style.h1}>Избранное</h1>
         {localStorage.getItem('likes') ? (
           JSON.parse(localStorage.getItem('likes')).map((item) => {
-            return <LikedReq text={item.name} key={item.id} id={item} />;
+            return <LikedReq text={item.name} key={item.id} id={item.id} />;
           })
         ) : (
           <h2>В избранном ничего нет</h2>

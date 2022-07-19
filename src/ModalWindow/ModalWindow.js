@@ -27,7 +27,7 @@ export const ModalWindow = () => {
 
   const saveToLocalStorage = () => {
     const req = saveReq();
-    console.log(req);
+    console.log(req)
     if (localStorage.getItem('likes')) {
       const data = JSON.parse(localStorage.getItem('likes'));
       localStorage.setItem('likes', JSON.stringify([...data, req]));
@@ -93,7 +93,7 @@ export const ModalWindow = () => {
             Сортировать по
           </label>
           <select id="select" style={{ width: '100%' }}>
-            <option value={'relevance'} selected>
+            <option value={'relevance'} defaultValue>
               Без сортировки
             </option>
             <option value={'title'}>По алфавиту</option>
