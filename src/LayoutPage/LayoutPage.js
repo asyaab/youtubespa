@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { Layout, Menu, Button } from 'antd';
+import { Layout, Menu } from 'antd';
 import style from './LayoutPage.module.css';
 import { setValue, setResponse } from '../redux/searchSlice';
 import { useDispatch } from 'react-redux';

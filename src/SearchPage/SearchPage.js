@@ -1,10 +1,8 @@
 import React from 'react';
-import axios from 'axios';
-import { Pagination } from 'antd';
 import style from './SearchPage.module.css';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setValue, setResponse, setIsModalVisible, searchVideo } from '../redux/searchSlice';
+import { setValue, setIsModalVisible, searchVideo } from '../redux/searchSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList } from '@fortawesome/free-solid-svg-icons';
 import { faBorderAll } from '@fortawesome/free-solid-svg-icons';
@@ -13,26 +11,20 @@ import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { VideoCard } from '../VideoCard/VideoCard';
 import { VideoCardGrid } from '../VideoCardGrid/VideoCardGrid';
 import { ModalWindow } from '../ModalWindow/ModalWindow';
+import { Pag } from '../Pag/Pag';
 
 export const SearchPage = () => {
   //Local state
   const [list, setList] = useState(true);
 
   //Redux store
-  const { value, response, liked } = useSelector((state) => state.searchReducer);
+  const { value, response, liked, data } = useSelector((state) => state.searchReducer);
   const dispatch = useDispatch();
 
   //Functions
   const listChange = () => {
     setList(!list);
   };
-
-  // const searchVideo = async (e) => {
-  //   e.preventDefault();
-  //   const res = await axios.get(URL + `q=${value}&key=${API_KEY}`);
-  //   localStorage.setItem('searchReq', value);
-  //   dispatch(setResponse(res.data.items));
-  // };
 
   const handleEnter = (e) => {
     if (e.key === 'Enter') {
@@ -46,8 +38,6 @@ export const SearchPage = () => {
   };
 
   const changePage = () => {};
-
-  console.log(response);
 
   return (
     <>
@@ -74,7 +64,7 @@ export const SearchPage = () => {
             <div className={style.filter}>
               <h2 className={style.h2}>
                 Видео по запросу: <b>&laquo;{localStorage.getItem('searchReq')}&raquo;</b>{' '}
-                <span style={{ color: 'lightslategrey' }}>{response.length}</span>
+                <span style={{ color: 'lightslategrey' }}>{data.pageInfo.totalResults}</span>
               </h2>
               <div className={style.filter_icon}>
                 <FontAwesomeIcon
@@ -89,7 +79,7 @@ export const SearchPage = () => {
                 />
               </div>
             </div>
-            <Pagination defaultCurrent={1} total={12} onChange={changePage} />;
+            <Pag />;
           </>
         ) : null}
         {response.length && list

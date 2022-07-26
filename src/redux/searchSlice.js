@@ -1,38 +1,51 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-const API_KEY = 'AIzaSyAp9JTE3Aj8j3lof8_BlkAEvw5emtL65jY';
-const URL =
-  'https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&type=video&';
 
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
-const navigate = useNavigate()
-
-export const searchVideo = createAsyncThunk('searchVideo/searchSlice', async ({e,value}) => {
-  e.preventDefault();
-  const res = await axios.get(URL + `q=${value}&key=${API_KEY}`);
-  localStorage.setItem('searchReq', value);
-  return res.data.items
-});
-
-export const getReq = createAsyncThunk('getReq/searchSlice', async ({e,id}) => {
-  e.stopPropagation();
-  const item = JSON.parse(localStorage.getItem('likes')).find((item) => item.id === id)
-  const res = await axios.get(
-    URL + `order=${item.sort}&maxResults=${item.maxResults}&q=${item.value}&key=${API_KEY}`,
-  );
-  localStorage.setItem('searchReq', item.value);
-  navigate('/');
-  return [res.data.items, item.value];
-});
-
+//initial State
 const initialState = {
   value: '',
+  data:{},
   response: [],
   isModalVisible: false,
   liked: false,
   sliderValue: 25,
+  pageToken:''
 };
+
+
+//Constans
+const API_KEY = 'AIzaSyAp9JTE3Aj8j3lof8_BlkAEvw5emtL65jY';
+const URL =
+  'https://youtube.googleapis.com/youtube/v3/search?part=snippet&type=video';
+const nextURL =
+  'https://youtube.googleapis.com/youtube/v3/videos?part=snippet&type=video';
+  
+
+//Async redux
+export const searchVideo = createAsyncThunk('searchVideo/searchSlice', async ({ e, value }) => {
+  e.preventDefault();
+  const res = await axios.get(URL + `&maxResults=12&q=${value}&key=${API_KEY}`);
+  localStorage.setItem('searchReq', value);
+  return res.data;
+});
+
+export const getReq = createAsyncThunk('getReq/searchSlice', async ({ e, id }) => {
+  e.stopPropagation();
+  const item = JSON.parse(localStorage.getItem('likes')).find((item) => item.id === id);
+  const res = await axios.get(
+    URL + `order=${item.sort}&maxResults=${item.maxResults}&q=${item.value}&key=${API_KEY}`,
+  );
+  localStorage.setItem('searchReq', item.value);
+  return res.data;
+});
+
+export const searchNextVideo = createAsyncThunk('searchNextVideo/searchSlice', async ({data,value,pageToken}) => {
+  const res = await axios.get(URL + `&pageToken=${pageToken}&maxResults=12&q=${value}&key=${API_KEY}`);
+  localStorage.setItem('searchReq', value);
+  return res.data;
+});
+//--------------------------//
 
 const searchSlice = createSlice({
   name: 'search',
@@ -53,15 +66,29 @@ const searchSlice = createSlice({
     setSliderValue(state, action) {
       state.sliderValue = action.payload;
     },
+    setPageToken(state, {payload}) {
+      state.pageToken = payload
+    }
   },
   extraReducers: {
     [searchVideo.fulfilled]: (state, { payload }) => {
-      state.response = payload;
+      state.data = payload;
+      state.response = payload.items;
     },
-    [getReq.fulfilled]: (state, [res, value]) => {
-      state.response = res;
-      state.value = value;
-    }
+    [searchNextVideo.fulfilled]: (state, { payload }) => {
+      state.data = payload;
+      state.response = payload.items;
+    },
+    [searchVideo.fulfilled]: (state, { payload }) => {
+      state.data = payload;
+      state.response = payload.items;
+    },
+    [searchNextVideo.fulfilled]: (state, { payload }) => {
+      state.response = payload.items;
+    },
+    [getReq.fulfilled]: (state, { payload }) => {
+      state.response = payload.items;
+    },
   },
 });
 
@@ -72,6 +99,7 @@ export const {
   setLiked,
   setSliderValue,
   setViewCount,
+  setPageToken
 } = searchSlice.actions;
 
 export default searchSlice.reducer;

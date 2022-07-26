@@ -1,7 +1,6 @@
 import React from 'react';
 import style from './LikedReq.module.css';
-import axios from 'axios';
-import { setResponse, setValue, getReq } from '../redux/searchSlice';
+import { setResponse, getReq } from '../redux/searchSlice';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -9,17 +8,18 @@ import { useDispatch } from 'react-redux';
 export const LikedReq = ({ text, id }) => {
   const [active, setActive] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleClick = (e) => {
     setActive(!active);
   };
 
   const deleteLike = (id) => {
-    const newLikes = (JSON.parse(localStorage.getItem('likes'))).filter(item => item.id !== id)
-    console.log(newLikes)
-    localStorage.setItem('likes', JSON.stringify([...newLikes]))
-    dispatch(setResponse(newLikes))
-  }
+    const newLikes = JSON.parse(localStorage.getItem('likes')).filter((item) => item.id !== id);
+    console.log(newLikes);
+    localStorage.setItem('likes', JSON.stringify([...newLikes]));
+    dispatch(setResponse(newLikes));
+  };
 
   return (
     <div
@@ -28,12 +28,19 @@ export const LikedReq = ({ text, id }) => {
       <p className={style.p}>{text}</p>
       {active ? (
         <div className={style.btns__container}>
-          <button className={style.btn} onClick={(e) => dispatch(getReq({e, id}))}>
+          <button
+            className={style.btn}
+            onClick={async (e) => {
+              await dispatch(getReq({ e, id }));
+              navigate('/');
+            }}>
             Выполнить
           </button>
           <div className={style.links}>
             <a href="#">Изменить</a>
-            <button onClick={() => deleteLike(id)}><span style={{color:'red'}}>Удалить</span></button>
+            <button onClick={() => deleteLike(id)}>
+              <span style={{ color: 'red' }}>Удалить</span>
+            </button>
           </div>
         </div>
       ) : null}
