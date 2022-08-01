@@ -37,8 +37,6 @@ export const SearchPage = () => {
     dispatch(setIsModalVisible());
   };
 
-  const changePage = () => {};
-
   return (
     <>
       <div className={response.length === 0 ? style.container : style.container2}>

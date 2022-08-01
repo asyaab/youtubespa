@@ -27,6 +27,7 @@ export const searchVideo = createAsyncThunk('searchVideo/searchSlice', async ({ 
   e.preventDefault();
   const res = await axios.get(URL + `&maxResults=12&q=${value}&key=${API_KEY}`);
   localStorage.setItem('searchReq', value);
+  console.log(res.data);
   return res.data;
 });
 
@@ -40,7 +41,7 @@ export const getReq = createAsyncThunk('getReq/searchSlice', async ({ e, id }) =
   return res.data;
 });
 
-export const searchNextVideo = createAsyncThunk('searchNextVideo/searchSlice', async ({data,value,pageToken}) => {
+export const searchNextVideo = createAsyncThunk('searchNextVideo/searchSlice', async ({value,pageToken}) => {
   const res = await axios.get(URL + `&pageToken=${pageToken}&maxResults=12&q=${value}&key=${API_KEY}`);
   localStorage.setItem('searchReq', value);
   return res.data;
@@ -74,6 +75,7 @@ const searchSlice = createSlice({
     [searchVideo.fulfilled]: (state, { payload }) => {
       state.data = payload;
       state.response = payload.items;
+      state.pageToken = payload.nextPageToken
     },
     [searchNextVideo.fulfilled]: (state, { payload }) => {
       state.data = payload;

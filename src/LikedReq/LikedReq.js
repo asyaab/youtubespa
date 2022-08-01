@@ -15,9 +15,9 @@ export const LikedReq = ({ text, id }) => {
   };
 
   const deleteLike = (id) => {
-    const newLikes = JSON.parse(localStorage.getItem('likes')).filter((item) => item.id !== id);
+    const newLikes = JSON.parse(localStorage.getItem(`likes${localStorage.getItem('token')}`)).filter((item) => item.id !== id);
     console.log(newLikes);
-    localStorage.setItem('likes', JSON.stringify([...newLikes]));
+    localStorage.setItem(`likes${localStorage.getItem('token')}`, JSON.stringify([...newLikes]));
     dispatch(setResponse(newLikes));
   };
 

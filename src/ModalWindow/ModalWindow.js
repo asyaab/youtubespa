@@ -28,7 +28,7 @@ export const ModalWindow = () => {
   const saveToLocalStorage = () => {
     const req = saveReq();
     console.log(req)
-    if (localStorage.getItem('likes')) {
+    if (localStorage.getItem(`likes${localStorage.getItem('token')}`)) {
       const data = JSON.parse(localStorage.getItem('likes'));
       localStorage.setItem('likes', JSON.stringify([...data, req]));
     } else {
